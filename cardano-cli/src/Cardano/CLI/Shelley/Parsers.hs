@@ -125,9 +125,7 @@ pAddressCmd =
       , Opt.command "build"
           (Opt.info pAddressBuild $ Opt.progDesc "Build a Shelley payment address, with optional delegation to a stake address.")
       , Opt.command "build-multisig"
-          (Opt.info pAddressBuildMultiSig $ Opt.progDesc "Build a Shelley payment multi-sig address.")
-      , Opt.command "build-script"
-          (Opt.info pAddressBuildScript $ Opt.progDesc "Build a Shelley script address.")
+          (Opt.info pAddressBuildScript $ Opt.progDesc "Build a Shelley payment multi-sig address.")
       , Opt.command "info"
           (Opt.info pAddressInfo $ Opt.progDesc "Print information about an address.")
       ]
@@ -148,12 +146,8 @@ pAddressCmd =
         <*> pNetworkId
         <*> pMaybeOutputFile
 
-
-    pAddressBuildMultiSig :: Parser AddressCmd
-    pAddressBuildMultiSig = pure AddressBuildMultiSig
-
     pAddressBuildScript :: Parser AddressCmd
-    pAddressBuildScript = AddressBuildScript
+    pAddressBuildScript = AddressBuildMultiSig
                             <$> pScript
                             <*> pNetworkId
                             <*> pMaybeOutputFile
@@ -183,7 +177,7 @@ pScript =
     ( Opt.strOption
         (  Opt.long "script-file"
         <> Opt.metavar "FILE"
-        <> Opt.help "Filepath of the script."
+        <> Opt.help "Filepath of the multisig script."
         <> Opt.completer (Opt.bashCompleter "file")
         )
     )
@@ -465,7 +459,8 @@ pTransaction =
 
     pTransactionSignWit :: Parser TransactionCmd
     pTransactionSignWit = TxSignWitness <$> pTxBodyFile Input
-                                        <*> some pWitnessFile
+                                        <*> many pWitnessFile
+                                        <*> optional pScript
                                         <*> pOutputFile
 
     pTransactionSubmit  :: Parser TransactionCmd
@@ -1226,7 +1221,7 @@ pWitnessFile =
     Opt.strOption
       (  Opt.long "witness-file"
       <> Opt.metavar "FILE"
-      <> Opt.help ("Filepath of the witness.")
+      <> Opt.help ("Filepath(s) of the witness signing key(s).")
       <> Opt.completer (Opt.bashCompleter "file")
       )
 

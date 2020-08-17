@@ -75,8 +75,7 @@ data AddressCmd
   = AddressKeyGen AddressKeyType VerificationKeyFile SigningKeyFile
   | AddressKeyHash VerificationKeyFile (Maybe OutputFile)
   | AddressBuild VerificationKeyFile (Maybe VerificationKeyFile) NetworkId (Maybe OutputFile)
-  | AddressBuildMultiSig  --TODO
-  | AddressBuildScript ScriptFile NetworkId (Maybe OutputFile)
+  | AddressBuildMultiSig ScriptFile NetworkId (Maybe OutputFile)
   | AddressInfo Text (Maybe OutputFile)
   deriving (Eq, Show)
 
@@ -112,7 +111,7 @@ data TransactionCmd
       TxBodyFile
   | TxSign TxBodyFile [SigningKeyFile] (Maybe NetworkId) TxFile
   | TxWitness TxBodyFile SigningKeyFile (Maybe NetworkId) OutputFile
-  | TxSignWitness TxBodyFile [WitnessFile] OutputFile
+  | TxSignWitness TxBodyFile [WitnessFile] (Maybe ScriptFile) OutputFile
   | TxSubmit Protocol NetworkId FilePath
   | TxCalculateMinFee
       TxBodyFile

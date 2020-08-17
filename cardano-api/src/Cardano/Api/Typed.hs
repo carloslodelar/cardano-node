@@ -113,7 +113,7 @@ module Cardano.Api.Typed (
     makeSignedTransaction,
     Witness(..),
     makeByronKeyWitness,
-    ShelleyWitnessSigningKey(..),
+    ShelleyWitnessKeyOrScript(..),
     makeShelleyKeyWitness,
     makeShelleyBootstrapWitness,
     makeShelleyScriptWitness,
@@ -1321,7 +1321,7 @@ makeShelleyBootstrapWitness nw (ShelleyTxBody txbody _) (ByronSigningKey sk) =
           Byron.aaNetworkMagic     = toByronNetworkMagic nw
         }
 
-data ShelleyWitnessSigningKey =
+data ShelleyWitnessKeyOrScript =
        WitnessPaymentKey         (SigningKey PaymentKey)
      | WitnessPaymentExtendedKey (SigningKey PaymentExtendedKey)
      | WitnessStakeKey           (SigningKey StakeKey)
@@ -1333,10 +1333,11 @@ data ShelleyWitnessSigningKey =
      | WitnessGenesisDelegateExtendedKey
                                  (SigningKey GenesisDelegateExtendedKey)
      | WitnessGenesisUTxOKey     (SigningKey GenesisUTxOKey)
+     | WitnessMultiSig           MultiSigScript
 
 
 makeShelleyKeyWitness :: TxBody Shelley
-                      -> ShelleyWitnessSigningKey
+                      -> ShelleyWitnessKeyOrScript
                       -> Witness Shelley
 makeShelleyKeyWitness (ShelleyTxBody txbody _) =
     let txhash :: Shelley.Hash ShelleyCrypto (Shelley.TxBody ShelleyCrypto)
@@ -1344,12 +1345,14 @@ makeShelleyKeyWitness (ShelleyTxBody txbody _) =
 
         -- To allow sharing of the txhash computation across many signatures we
         -- define and share the txhash outside the lambda for the signing key:
-     in \wsk ->
-        let sk        = toShelleySigningKey wsk
-            vk        = getShelleyKeyWitnessVerificationKey sk
-            signature = makeShelleySignature txhash sk
-         in ShelleyKeyWitness $
-              Shelley.WitVKey vk signature
+     in \sw ->
+       case sw of
+         WitnessMultiSig mss -> makeShelleyScriptWitness $ makeMultiSigScript mss
+         _ ->  let sk        = toShelleySigningKey sw
+                   vk        = getShelleyKeyWitnessVerificationKey sk
+                   signature = makeShelleySignature txhash sk
+               in ShelleyKeyWitness $
+                    Shelley.WitVKey vk signature
 
 
 -- | We support making key witnesses with both normal and extended signing keys.
@@ -1362,7 +1365,7 @@ data ShelleySigningKey =
      | ShelleyExtendedSigningKey Crypto.HD.XPrv
 
 
-toShelleySigningKey :: ShelleyWitnessSigningKey -> ShelleySigningKey
+toShelleySigningKey :: ShelleyWitnessKeyOrScript -> ShelleySigningKey
 toShelleySigningKey key = case key of
   WitnessPaymentKey     (PaymentSigningKey     sk) -> ShelleyNormalSigningKey sk
   WitnessStakeKey       (StakeSigningKey       sk) -> ShelleyNormalSigningKey sk
@@ -1384,6 +1387,8 @@ toShelleySigningKey key = case key of
 
   WitnessGenesisDelegateExtendedKey (GenesisDelegateExtendedSigningKey sk) ->
     ShelleyExtendedSigningKey sk
+  WitnessMultiSig _ -> error "Cardano.Api.Typed.toShelleySigningKey: No \
+                             \signing key equivalent for a multisig script."
 
 
 getShelleyKeyWitnessVerificationKey
@@ -1447,7 +1452,7 @@ signByronTransaction nw txbody sks =
 
 -- signing keys is a set
 signShelleyTransaction :: TxBody Shelley
-                       -> [ShelleyWitnessSigningKey]
+                       -> [ShelleyWitnessKeyOrScript]
                        -> Tx Shelley
 signShelleyTransaction txbody sks =
     makeSignedTransaction witnesses txbody

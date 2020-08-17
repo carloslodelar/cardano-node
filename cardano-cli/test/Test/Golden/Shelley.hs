@@ -56,6 +56,7 @@ import           Test.Golden.Shelley.TextEnvelope.Keys.PaymentKeys (golden_shell
 import           Test.Golden.Shelley.TextEnvelope.Keys.StakeKeys (golden_shelleyStakeKeys)
 import           Test.Golden.Shelley.TextEnvelope.Keys.VRFKeys (golden_shelleyVRFKeys)
 import           Test.Golden.Shelley.TextView.DecodeCbor (golden_shelleyTextViewDecodeCbor)
+import           Test.Golden.Shelley.Transaction.Assemble (golden_shelleyTransactionAssemble)
 import           Test.Golden.Shelley.Transaction.Build (golden_shelleyTransactionBuild)
 import           Test.Golden.Shelley.Transaction.CalculateMinFee
                      (golden_shelleyTransactionCalculateMinFee)
@@ -137,4 +138,5 @@ multiSigTests =
         [ ("golden_shelleyAllMultiSigAddressBuild", golden_shelleyAllMultiSigAddressBuild)
         , ("golden_shelleyAnyMultiSigAddressBuild", golden_shelleyAnyMultiSigAddressBuild)
         , ("golden_shelleyAtLeastMultiSigAddressBuild", golden_shelleyAtLeastMultiSigAddressBuild)
+        , ("golden_shelleyTransactionAssemble", golden_shelleyTransactionAssemble)
         ]
