@@ -78,44 +78,35 @@ validateTxMetadata
   :: TxMetadata
   -> Either TxMetadataValidationError TxMetadata
 validateTxMetadata txMd@(TxMetadata (MetaData mdMap)) =
-    Map.foldl' foldFn (Right txMd) mdMap
+    txMd <$ traverse_ validate (Map.elems mdMap)
   where
-    foldFn
-      :: Either TxMetadataValidationError TxMetadata
-      -> MetaDatum
-      -> Either TxMetadataValidationError TxMetadata
-    foldFn lastResult metaDatum =
-      case lastResult of
-        Left err -> Left err
-        Right _ -> validate metaDatum
-
-    validate :: MetaDatum -> Either TxMetadataValidationError TxMetadata
+    validate :: MetaDatum -> Either TxMetadataValidationError ()
     validate metaDatum =
       case metaDatum of
-        Map [] -> Right txMd
+        Map [] -> Right ()
         Map ((k, v):mdPairs) ->
           case (validate k, validate v) of
             (Left err, _) -> Left err
             (_, Left err) -> Left err
             _ -> validate (Map mdPairs)
 
-        List [] -> Right txMd
+        List [] -> Right ()
         List (md:mds) ->
           case validate md of
             Right _ -> validate (List mds)
             Left err -> Left err
 
-        I _ -> Right txMd
+        I _ -> Right ()
 
         B bs
-          | BS.length bs <= txMetadataByteStringMaxLength -> Right txMd
+          | BS.length bs <= txMetadataByteStringMaxLength -> Right ()
           | otherwise ->
               Left $ TxMetadataByteStringInvalidLengthError
                 txMetadataByteStringMaxLength
                 (BS.length bs)
 
         S txt
-          | BS.length (Text.encodeUtf8 txt) <= txMetadataTextStringMaxLength -> Right txMd
+          | BS.length (Text.encodeUtf8 txt) <= txMetadataTextStringMaxLength -> Right ()
           | otherwise ->
               Left $ TxMetadataTextStringInvalidLengthError
                 txMetadataTextStringMaxLength
