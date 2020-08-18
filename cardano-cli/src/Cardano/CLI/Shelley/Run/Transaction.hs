@@ -115,6 +115,7 @@ runTransactionCmd cmd =
   case cmd of
     TxBuildRaw txins txouts ttl fee certs wdrls mMetaData mUpProp out ->
       runTxBuildRaw txins txouts ttl fee certs wdrls mMetaData mUpProp out
+    TxBuildMultiSig _mScriptObj _mOutputFile -> panic "Placeholder"
     TxSign txinfile skfiles network txoutfile ->
       runTxSign txinfile skfiles network txoutfile
     TxSubmit protocol network txFp ->

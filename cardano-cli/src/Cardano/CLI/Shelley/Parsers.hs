@@ -415,6 +415,8 @@ pTransaction =
     mconcat
       [ Opt.command "build-raw"
           (Opt.info pTransactionBuild $ Opt.progDesc "Build a transaction (low-level, inconvenient)")
+      , Opt.command "build-multisig"
+          (Opt.info pMultiSigBuild $ Opt.progDesc "Build a multisig script.")
       , Opt.command "sign"
           (Opt.info pTransactionSign $ Opt.progDesc "Sign a transaction")
       , Opt.command "witness"
@@ -444,6 +446,9 @@ pTransaction =
                                    <*> many pMetaDataFile
                                    <*> optional pUpdateProposalFile
                                    <*> pTxBodyFile Output
+
+    pMultiSigBuild :: Parser TransactionCmd
+    pMultiSigBuild =  TxBuildMultiSig <$> pMultiSigScriptObject <*> pMaybeOutputFile
 
     pTransactionSign  :: Parser TransactionCmd
     pTransactionSign = TxSign <$> pTxBodyFile Input
@@ -893,6 +898,14 @@ pMetaDataFile =
           <> Opt.help "Filepath of the metadata, in raw CBOR format."
           <> Opt.completer (Opt.bashCompleter "file")
           )
+
+
+pMultiSigScriptObject :: Parser MultiSigScriptObject
+pMultiSigScriptObject = pAny <|> pAll <|> pAtLeast
+ where --TODO: You left off here
+   pAny = panic ""
+   pAll = panic ""
+   pAtLeast = panic ""
 
 pWithdrawal :: Parser (StakeAddress, Lovelace)
 pWithdrawal =

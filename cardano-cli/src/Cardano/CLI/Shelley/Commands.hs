@@ -109,6 +109,7 @@ data TransactionCmd
       [MetaDataFile]
       (Maybe UpdateProposalFile)
       TxBodyFile
+  | TxBuildMultiSig MultiSigScriptObject (Maybe OutputFile)
   | TxSign TxBodyFile [SigningKeyFile] (Maybe NetworkId) TxFile
   | TxWitness TxBodyFile SigningKeyFile (Maybe NetworkId) OutputFile
   | TxSignWitness TxBodyFile [WitnessFile] (Maybe ScriptFile) OutputFile

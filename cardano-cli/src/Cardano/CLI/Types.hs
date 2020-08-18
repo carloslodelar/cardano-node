@@ -5,6 +5,7 @@ module Cardano.CLI.Types
   ( CBORObject (..)
   , CertificateFile (..)
   , GenesisFile (..)
+  , MultiSigScriptObject (..)
   , OutputFormat (..)
   , QueryFilter (..)
   , SigningKeyFile (..)
@@ -78,6 +79,14 @@ newtype UpdateProposalFile = UpdateProposalFile { unUpdateProposalFile :: FilePa
 
 newtype VerificationKeyFile
   = VerificationKeyFile FilePath
+  deriving (Eq, Show)
+
+-- | Specify what type of multisig script to create
+-- i.e any, all or atleast
+data MultiSigScriptObject
+  = Any [FilePath]
+  | All [FilePath]
+  | AtLeast Int [FilePath]
   deriving (Eq, Show)
 
 newtype ScriptFile = ScriptFile { unScriptFile :: FilePath }
