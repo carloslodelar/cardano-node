@@ -15,7 +15,6 @@ import           Hedgehog.Internal.Property (failWith)
 
 import           Test.Cardano.Api.Examples
 import           Test.Cardano.Api.Typed.Gen
-import           Test.Cardano.Api.Typed.Orphans ()
 import           Test.Cardano.Prelude (goldenTestJSONPretty)
 
 prop_generateMofNcorrectly :: Property
@@ -35,7 +34,7 @@ prop_golden_AnyMultiSig :: Property
 prop_golden_AnyMultiSig = goldenTestJSONPretty exampleAny "test/Golden/MultiSig/any"
 
 prop_golden_MofNMultiSig :: Property
-prop_golden_MofNMultiSig = goldenTestJSONPretty exampleMofN "test/Golden/MultiSig/mofn"
+prop_golden_MofNMultiSig = goldenTestJSONPretty exampleMofN "test/Golden/MultiSig/atleast"
 
 prop_roundtrip_MultiSigScript_JSON :: Property
 prop_roundtrip_MultiSigScript_JSON =
