@@ -93,6 +93,7 @@ import           Cardano.Node.Protocol.Byron ()
 import           Cardano.Node.Protocol.Shelley ()
 
 {- HLINT ignore "Redundant bracket" -}
+{- HLINT ignore "Use record patterns" -}
 
 data Tracers peer localPeer blk = Tracers
   { -- | Trace the ChainDB

@@ -60,6 +60,7 @@ import qualified Ouroboros.Consensus.Storage.ChainDB as ChainDB
 import qualified Ouroboros.Consensus.Storage.LedgerDB.OnDisk as LedgerDB
 
 {- HLINT ignore "Use const" -}
+{- HLINT ignore "Use record patterns" -}
 
 instance ConvertRawHash blk => ConvertRawHash (Header blk) where
   toShortRawHash _ h = toShortRawHash (Proxy @blk) h

@@ -51,6 +51,7 @@ import           Ouroboros.Network.Subscription (ConnectResult (..), DnsTrace (.
 import           Ouroboros.Network.TxSubmission.Inbound (TraceTxSubmissionInbound (..))
 import           Ouroboros.Network.TxSubmission.Outbound (TraceTxSubmissionOutbound (..))
 
+{- HLINT ignore "Use record patterns" -}
 
 --
 -- * instances of @HasPrivacyAnnotation@ and @HasSeverityAnnotation@
