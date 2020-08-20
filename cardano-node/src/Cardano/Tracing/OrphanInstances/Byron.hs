@@ -65,14 +65,14 @@ instance ToObject ApplyMempoolPayloadErr where
 
 instance ToObject ByronLedgerUpdate where
   toObject verb (ByronUpdatedProtocolUpdates protocolUpdates) =
-    mkObject $
+    mkObject
       [ "kind"            .= String "ByronUpdatedProtocolUpdates"
       , "protocolUpdates" .= map (toObject verb) protocolUpdates
       ]
 
 instance ToObject ProtocolUpdate where
   toObject verb (ProtocolUpdate updateVersion updateState) =
-    mkObject $
+    mkObject
       [ "kind"                  .= String "ProtocolUpdate"
       , "protocolUpdateVersion" .= updateVersion
       , "protocolUpdateState"   .= toObject verb updateState

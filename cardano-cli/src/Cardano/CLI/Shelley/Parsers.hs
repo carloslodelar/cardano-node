@@ -1512,7 +1512,7 @@ pSingleHostAddress = singleHostAddress
   singleHostAddress ipv4 ipv6 port =
     case (ipv4, ipv6) of
       (Nothing, Nothing) ->
-        panic $ "Please enter either an IPv4 or IPv6 address for the pool relay"
+        panic "Please enter either an IPv4 or IPv6 address for the pool relay"
       (Just i4, Nothing) ->
         StakePoolRelayIp (Just i4) Nothing (Just port)
       (Nothing, Just i6) ->

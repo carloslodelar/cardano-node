@@ -42,7 +42,7 @@ renderByronQueryError err =
 
 runGetLocalNodeTip :: NetworkId -> ExceptT ByronQueryError IO ()
 runGetLocalNodeTip networkId = do
-    SocketPath sockPath <- firstExceptT ByronQueryEnvVarSocketErr $
+    SocketPath sockPath <- firstExceptT ByronQueryEnvVarSocketErr
                            readEnvSocketPath
     let connctInfo =
           LocalNodeConnectInfo {

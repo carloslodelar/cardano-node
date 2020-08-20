@@ -235,7 +235,7 @@ serialiseGenesis = canonicalEncodePretty
 
 writeSecrets :: FilePath -> String -> String -> (a -> IO (Either ByronGenesisError LB.ByteString)) -> [a] -> IO ()
 writeSecrets outDir prefix suffix secretOp xs =
-  forM_ (zip xs $ [0::Int ..]) $
+  forM_ (zip xs [0::Int ..]) $
   \(secret, nr)-> do
     let filename = outDir </> prefix <> "." <> printf "%03d" nr <> "." <> suffix
     result <- secretOp secret

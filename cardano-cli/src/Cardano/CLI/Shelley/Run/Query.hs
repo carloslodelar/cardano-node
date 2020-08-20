@@ -126,7 +126,7 @@ runQueryProtocolParameters protocol network mOutFile = do
     SocketPath sockPath <- firstExceptT ShelleyQueryEnvVarSocketErr
                            readEnvSocketPath
     pparams <- firstExceptT ShelleyQueryNodeLocalStateQueryError $
-               withlocalNodeConnectInfo protocol network sockPath $
+               withlocalNodeConnectInfo protocol network sockPath
                  queryPParamsFromLocalState
     writeProtocolParameters mOutFile pparams
 

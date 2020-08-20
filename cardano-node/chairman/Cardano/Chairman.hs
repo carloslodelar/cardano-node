@@ -87,7 +87,7 @@ chairmanTest tracer slotLength securityParam runningTime optionalProgressThresho
     traceWith tracer ("Will observe nodes for " ++ show runningTime)
     traceWith tracer ("Will require chain growth of " ++ show progressThreshold)
 
-    SomeNodeClientProtocol (p :: ProtocolClient blk (BlockProtocol blk)) <- return $ someNodeClientProtocol
+    SomeNodeClientProtocol (p :: ProtocolClient blk (BlockProtocol blk)) <- return someNodeClientProtocol
 
     -- Run the chairman and get the final snapshot of the chain from each node.
     chainsSnapshot <- runChairman

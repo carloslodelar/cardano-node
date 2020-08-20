@@ -1561,7 +1561,7 @@ data MultiSigScript = RequireSignature (Hash PaymentKey)
   deriving (Eq, Show)
 
 instance ToJSON MultiSigScript where
-  toJSON (RequireSignature payKeyHash) = String . Text.decodeUtf8 $ serialiseToRawBytesHex $ payKeyHash
+  toJSON (RequireSignature payKeyHash) = String . Text.decodeUtf8 $ serialiseToRawBytesHex payKeyHash
   toJSON (RequireAnyOf reqSigs) = object [ "any" .= map toJSON reqSigs ]
   toJSON (RequireAllOf reqSigs) = object [ "all" .= map toJSON reqSigs ]
   toJSON (RequireMOf reqNum reqSigs) = toJSONmOfnChecks reqSigs reqNum (length reqSigs)
@@ -1579,8 +1579,8 @@ toJSONmOfnChecks keys required total
   | required <= 0 = error "The required number of payment key hashes cannot be less than or equal to 0."
   | required == 1 = error "required is equal to one, you should use the \"any\" multisig script"
 
-  | required == total = error $ "required is equal to the total, you should use \
-                                \the \"all\" multisig script"
+  | required == total = error "required is equal to the total, you should use \
+                              \the \"all\" multisig script"
 
   | length keys == total = object [ "atLeast" .= object
                                     [ "required" .= required
@@ -1643,8 +1643,8 @@ fromJSONmOfnChecks :: [MultiSigScript] -> Int -> Int -> Aeson.Parser MultiSigScr
 fromJSONmOfnChecks keys required total
   | required <= 0 = error  "The required number of payment key hashes cannot be less than or equal to 0."
   | required == 1 = fail "required is equal to one, you should use the \"any\" multisig script"
-  | required == total = fail $ "required is equal to the total, you should \
-                               \use the \"all\" multisig script"
+  | required == total = fail "required is equal to the total, you should \
+                             \use the \"all\" multisig script"
   | length keys < required = fail $ "required exceeds the number of payment key hashes. \
                                     \Number of keys: " ++ show (length keys)
                                   ++ " required: " ++ show required

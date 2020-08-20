@@ -97,8 +97,7 @@ instance ToJSON (SupportsMempool.TxId (GenTx (ShelleyBlock c))) where
   toJSON i = toJSON (condense i)
 
 instance Crypto c => ToObject (Header (ShelleyBlock c)) where
-  toObject _verb b =
-    mkObject $
+  toObject _verb b = mkObject
         [ "kind" .= String "ShelleyBlock"
         , "hash" .= condense (blockHash b)
         , "slotNo" .= condense (blockSlot b)

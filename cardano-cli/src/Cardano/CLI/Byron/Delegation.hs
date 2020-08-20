@@ -83,7 +83,7 @@ checkDlgCert
   -> Crypto.VerificationKey
   -> Crypto.VerificationKey -> [Text]
 checkDlgCert cert magic issuerVK' delegateVK' =
-  mconcat $
+  mconcat
   [ [ sformat "Certificate does not have a valid signature."
       | not (Dlg.isValid magic' cert')
     ]

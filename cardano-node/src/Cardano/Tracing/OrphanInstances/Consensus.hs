@@ -552,8 +552,7 @@ instance (Show (PBFT.PBftVerKeyHash c))
 
 instance ConvertRawHash blk
       => ToObject (RealPoint blk) where
-  toObject verb p =
-    mkObject $
+  toObject verb p = mkObject
         [ "kind" .= String "Point"
         , "slot" .= unSlotNo (realPointSlot p)
         , "hash" .= renderHeaderHashForVerbosity (Proxy @blk) verb (realPointHash p) ]

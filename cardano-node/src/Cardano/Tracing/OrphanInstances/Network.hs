@@ -454,10 +454,12 @@ instance ToObject (AnyMessage (ChainSync blk tip)) where
 instance ToObject (FetchDecision [Point header]) where
   toObject _verb (Left decline) =
     mkObject [ "kind" .= String "FetchDecision declined"
-             , "declined" .= String (pack $ show $ decline) ]
+             , "declined" .= String (pack (show decline))
+             ]
   toObject _verb (Right results) =
     mkObject [ "kind" .= String "FetchDecision results"
-             , "length" .= String (pack $ show $ length results) ]
+             , "length" .= String (pack $ show $ length results)
+             ]
 
 
 instance ToObject NtC.HandshakeTr where
