@@ -13,8 +13,6 @@
 - ignore: {name: "Redundant $"}
 - ignore: {name: "Use record patterns"}
 - ignore: {name: "Use :"}
-- ignore: {name: "Use const"}
-
 
 # Specify additional command line arguments
 #
