@@ -24,11 +24,11 @@ import           Ouroboros.Network.Block
 import           Cardano.Api.LocalChainSync (getLocalTip)
 import           Cardano.CLI.Environment (EnvSocketError, readEnvSocketPath, renderEnvSocketError)
 import           Cardano.CLI.Types (SocketPath (..))
-import           Cardano.Tracing.Render (renderHeaderHash, renderSlotNo) -- TODO: This forces us to import "cardano-node". Fix this.
+import           Cardano.Tracing.Render (renderHeaderHash, renderSlotNo)
 
+{- HLINT ignore "Reduce duplication" -}
 
-data ByronQueryError
-  = ByronQueryEnvVarSocketErr !EnvSocketError
+newtype ByronQueryError = ByronQueryEnvVarSocketErr EnvSocketError
   deriving Show
 
 renderByronQueryError :: ByronQueryError -> Text

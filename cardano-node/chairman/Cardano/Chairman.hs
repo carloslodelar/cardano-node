@@ -240,9 +240,7 @@ consensusCondition (SecurityParam securityParam) chains =
           - fromWithOrigin 0 (AF.anchorToBlockNo intersection)
 
 
-data ProgressSuccess =
-     ProgressSuccess
-       BlockNo
+newtype ProgressSuccess = ProgressSuccess BlockNo
   deriving Show
 
 data ProgressFailure blk =

@@ -462,6 +462,7 @@ import           Ouroboros.Network.Protocol.LocalStateQuery.Client as StateQuery
 import           Ouroboros.Network.Protocol.LocalStateQuery.Type (AcquireFailure)
 import           Ouroboros.Network.Protocol.LocalTxSubmission.Client as TxSubmission
 
+{- HLINT ignore "Redundant flip" -}
 
 -- ----------------------------------------------------------------------------
 -- Cardano eras, sometimes we have to distinguish them

@@ -52,8 +52,7 @@ import           Ouroboros.Network.Block (MaxSlotNo (..))
 -- use records with named fields in the CLI code.
 
 -- | Errors for the cardano-config module.
-data ConfigError
-    = ConfigErrorFileNotFound !FilePath
+newtype ConfigError = ConfigErrorFileNotFound FilePath
     deriving Show
 
 -- | Filepath of the configuration yaml file. This file determines

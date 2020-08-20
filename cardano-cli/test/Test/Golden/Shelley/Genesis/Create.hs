@@ -23,6 +23,7 @@ import qualified Hedgehog.Range as R
 import qualified System.Directory as IO
 
 {- HLINT ignore "Use camelCase" -}
+{- HLINT ignore "Reduce duplication" -}
 
 parseMaxLovelaceSupply :: J.Value -> J.Parser Int
 parseMaxLovelaceSupply = J.withObject "Object" $ \o -> o J..: "maxLovelaceSupply"

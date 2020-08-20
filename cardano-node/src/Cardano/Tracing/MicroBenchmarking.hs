@@ -136,10 +136,10 @@ instance (Monad m, HasTxId (GenTx blk)) => Outcome m (MeasureTxs blk) where
     computeOutcomeMetric _ xs ys = pure . computeFinalValues $ computeIntermediateValues xsTxId ysTxId
       where
         --xsTxId :: [(GenTxId blk, Time)]
-        xsTxId = map (\(genTx, _time) -> (txId genTx, _time)) xs
+        xsTxId = map (first txId) xs
 
         --ysTxId :: [(GenTxId blk, Time)]
-        ysTxId = map (\(genTx, _time) -> (txId genTx, _time)) ys
+        ysTxId = map (first txId) ys
 
         -- | Here we filter and match all the transactions that made it into
         -- a block.
