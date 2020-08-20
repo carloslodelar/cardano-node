@@ -645,8 +645,8 @@ instance ( ConvertRawHash blk
                , "block" .= toObject verb pt ]
    where
      addedHdrsNewChain
-       :: (AF.AnchoredFragment (Header blk))
-       -> (AF.AnchoredFragment (Header blk))
+       :: AF.AnchoredFragment (Header blk)
+       -> AF.AnchoredFragment (Header blk)
        -> [Header blk]
      addedHdrsNewChain fro to_ =
        case AF.intersect fro to_ of
@@ -762,20 +762,24 @@ instance ConvertRawHash blk
   toObject verb ev = case ev of
     TraceChainSyncServerRead tip (AddBlock hdr) ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncServerRead.AddBlock"
-               , "tip" .= (String (renderTipForVerbosity verb tip))
-               , "addedBlock" .= (String (renderPointForVerbosity verb hdr)) ]
+               , "tip" .= String (renderTipForVerbosity verb tip)
+               , "addedBlock" .= String (renderPointForVerbosity verb hdr)
+               ]
     TraceChainSyncServerRead tip (RollBack pt) ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncServerRead.RollBack"
-               , "tip" .= (String (renderTipForVerbosity verb tip))
-               , "rolledBackBlock" .= (String (renderPointForVerbosity verb pt)) ]
+               , "tip" .= String (renderTipForVerbosity verb tip)
+               , "rolledBackBlock" .= String (renderPointForVerbosity verb pt)
+               ]
     TraceChainSyncServerReadBlocked tip (AddBlock hdr) ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncServerReadBlocked.AddBlock"
-               , "tip" .= (String (renderTipForVerbosity verb tip))
-               , "addedBlock" .= (String (renderPointForVerbosity verb hdr)) ]
+               , "tip" .= String (renderTipForVerbosity verb tip)
+               , "addedBlock" .= String (renderPointForVerbosity verb hdr)
+               ]
     TraceChainSyncServerReadBlocked tip (RollBack pt) ->
       mkObject [ "kind" .= String "ChainSyncServerEvent.TraceChainSyncServerReadBlocked.RollBack"
-               , "tip" .= (String (renderTipForVerbosity verb tip))
-               , "rolledBackBlock" .= (String (renderPointForVerbosity verb pt)) ]
+               , "tip" .= String (renderTipForVerbosity verb tip)
+               , "rolledBackBlock" .= String (renderPointForVerbosity verb pt)
+               ]
 
 
 instance ( Show (ApplyTxErr blk), ToObject (ApplyTxErr blk), ToObject (GenTx blk),
@@ -837,11 +841,10 @@ instance ( tx ~ GenTx blk
     mkObject
       [ "kind" .= String "TraceAdoptedBlock"
       , "slot" .= toJSON (unSlotNo slotNo)
-      , "blockHash" .=
-          (renderHeaderHashForVerbosity
-            (Proxy @blk)
-            MaximalVerbosity
-            (blockHash blk))
+      , "blockHash" .= renderHeaderHashForVerbosity
+          (Proxy @blk)
+          MaximalVerbosity
+          (blockHash blk)
       , "blockSize" .= toJSON (nodeBlockFetchSize (getHeader blk))
       , "txIds" .= toJSON (map (show . txId) txs)
       ]
@@ -849,11 +852,10 @@ instance ( tx ~ GenTx blk
     mkObject
       [ "kind" .= String "TraceAdoptedBlock"
       , "slot" .= toJSON (unSlotNo slotNo)
-      , "blockHash" .=
-          (renderHeaderHashForVerbosity
-            (Proxy @blk)
-            verb
-            (blockHash blk))
+      , "blockHash" .= renderHeaderHashForVerbosity
+          (Proxy @blk)
+          verb
+          (blockHash blk)
       , "blockSize" .= toJSON (nodeBlockFetchSize (getHeader blk))
       ]
   toObject _verb (TraceBlockFromFuture currentSlot tip) =

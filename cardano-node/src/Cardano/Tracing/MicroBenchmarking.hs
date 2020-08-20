@@ -196,7 +196,7 @@ instance (Monad m, MonadTime m) => Outcome m (TraceForgeEvent blk) where
 
     --computeOutcomeMetric   :: a -> IntermediateValue a -> IntermediateValue a -> m (OutcomeMetric a)
     computeOutcomeMetric _ (startSlot, absTimeStart, _) (stopSlot, absTimeStop, mempoolSize)
-        | startSlot == stopSlot = pure $ Just (startSlot, (diffTime absTimeStop absTimeStart), mempoolSize)
+        | startSlot == stopSlot = pure $ Just (startSlot, diffTime absTimeStop absTimeStart, mempoolSize)
         | otherwise             = pure Nothing
 
 instance HasPrivacyAnnotation (Either

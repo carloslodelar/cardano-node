@@ -57,7 +57,7 @@ runGetLocalNodeTip networkId = do
       putTextLn (getTipOutput tip)
   where
     getTipOutput :: forall blk. ConvertRawHash blk => Tip blk -> Text
-    getTipOutput (TipGenesis) = "Current tip: genesis (origin)"
+    getTipOutput TipGenesis = "Current tip: genesis (origin)"
     getTipOutput (Tip slotNo headerHash (BlockNo blkNo)) =
       Text.unlines
         [ "\n"

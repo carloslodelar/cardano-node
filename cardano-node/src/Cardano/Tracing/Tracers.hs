@@ -92,6 +92,7 @@ import           Cardano.Tracing.Queries
 import           Cardano.Node.Protocol.Byron ()
 import           Cardano.Node.Protocol.Shelley ()
 
+{- HLINT ignore "Redundant bracket" -}
 
 data Tracers peer localPeer blk = Tracers
   { -- | Trace the ChainDB
@@ -204,10 +205,10 @@ instance ElidingTracer (WithSeverity (ChainDB.TraceEvent blk)) where
   doelide (WithSeverity _ (ChainDB.TraceCopyToImmDBEvent _)) = True
   doelide _ = False
   conteliding _tverb _tr _ (Nothing, _count) = return (Nothing, 0)
-  conteliding tverb tr ev@(WithSeverity _ (ChainDB.TraceAddBlockEvent (ChainDB.AddedToCurrentChain{}))) (_old, oldt) = do
+  conteliding tverb tr ev@(WithSeverity _ (ChainDB.TraceAddBlockEvent ChainDB.AddedToCurrentChain{})) (_old, oldt) = do
       tnow <- fromIntegral <$> getMonotonicTimeNSec
       let deltat = tnow - oldt
-      if (deltat > 1250000000)  -- report at most every 1250 ms
+      if deltat > 1250000000 -- report at most every 1250 ms
         then do
           traceWith (toLogObject' tverb tr) ev
           return (Just ev, tnow)
@@ -225,7 +226,7 @@ instance ElidingTracer (WithSeverity (ChainDB.TraceEvent blk)) where
           progress :: Double = (fromInteger slotno * 100.0) / fromInteger (max slotno endslot)
       when (count > 0 && (slotno - startslot) `mod` 1000 == 0) $ do  -- report every 1000th slot
           meta <- mkLOMeta (getSeverityAnnotation ev) (getPrivacyAnnotation ev)
-          traceNamedObject tr (meta, LogValue "block replay progress (%)" (PureD ((fromInteger (round (progress * 10.0))) / 10.0)))
+          traceNamedObject tr (meta, LogValue "block replay progress (%)" (PureD (fromInteger (round (progress * 10.0)) / 10.0)))
       return (Just ev, fromInteger startslot)
   conteliding _ _ _ _ = return (Nothing, 0)
 

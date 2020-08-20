@@ -98,7 +98,7 @@ chairmanTest tracer slotLength securityParam runningTime optionalProgressThresho
                         runningTime
                         socketPaths
 
-    traceWith tracer ("================== chairman results ==================")
+    traceWith tracer "================== chairman results =================="
 
     -- Test if we achieved consensus
     consensusSuccess <- either throwIO return $
@@ -111,7 +111,7 @@ chairmanTest tracer slotLength securityParam runningTime optionalProgressThresho
                          progressCondition progressThreshold consensusSuccess
 
     traceWith tracer (show progressSuccess)
-    traceWith tracer ("================== chairman results ==================")
+    traceWith tracer "================== chairman results =================="
 
   where
     progressThreshold = deriveProgressThreshold

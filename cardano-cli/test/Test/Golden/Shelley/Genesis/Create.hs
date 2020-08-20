@@ -32,7 +32,7 @@ parseSystemStart :: J.Value -> J.Parser String
 parseSystemStart = J.withObject "Object" $ \o -> o J..: "systemStart"
 
 parseHashMap :: J.Value -> J.Parser (HM.HashMap String J.Value)
-parseHashMap (J.Object hm) = pure $ HM.fromList $ fmap (first T.unpack) (HM.toList (hm))
+parseHashMap (J.Object hm) = pure $ HM.fromList $ fmap (first T.unpack) (HM.toList hm)
 parseHashMap v = J.typeMismatch "Object" v
 
 parseDelegateCount :: J.Value -> J.Parser Int

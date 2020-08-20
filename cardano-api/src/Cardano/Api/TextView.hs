@@ -99,7 +99,7 @@ renderTextViewError tve =
      <> " Expected one of: "
      <> Text.intercalate ", "
           [ Text.decodeLatin1 (unTextViewType expType) | expType <- expTypes ]
-     <> " Actual: " <> (Text.decodeLatin1 (unTextViewType actType))
+     <> " Actual: " <> Text.decodeLatin1 (unTextViewType actType)
     TextViewAesonDecodeError decErr -> "TextView aeson decode error: " <> textShow decErr
     TextViewDecodeError decErr -> "TextView decode error: " <> textShow decErr
 

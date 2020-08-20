@@ -1727,13 +1727,13 @@ instance HasTypeProxy Certificate where
 instance HasTextEnvelope Certificate where
     textEnvelopeType _ = "CertificateShelley"
     textEnvelopeDefaultDescr (Certificate cert) = case cert of
-      Shelley.DCertDeleg (Shelley.RegKey {})    -> "Stake address registration"
-      Shelley.DCertDeleg (Shelley.DeRegKey {})  -> "Stake address de-registration"
-      Shelley.DCertDeleg (Shelley.Delegate {})  -> "Stake address delegation"
-      Shelley.DCertPool (Shelley.RegPool {})    -> "Pool registration"
-      Shelley.DCertPool (Shelley.RetirePool {}) -> "Pool retirement"
-      Shelley.DCertGenesis{}                    -> "Genesis key delegation"
-      Shelley.DCertMir{}                        -> "MIR"
+      Shelley.DCertDeleg Shelley.RegKey {}    -> "Stake address registration"
+      Shelley.DCertDeleg Shelley.DeRegKey {}  -> "Stake address de-registration"
+      Shelley.DCertDeleg Shelley.Delegate {}  -> "Stake address delegation"
+      Shelley.DCertPool Shelley.RegPool {}    -> "Pool registration"
+      Shelley.DCertPool Shelley.RetirePool {} -> "Pool retirement"
+      Shelley.DCertGenesis{}                  -> "Genesis key delegation"
+      Shelley.DCertMir{}                      -> "MIR"
 
 makeStakeAddressRegistrationCertificate
   :: StakeCredential
@@ -2515,12 +2515,10 @@ withNodeProtocolClient
 withNodeProtocolClient (ByronMode epochSlots securityParam) f =
     f (mkNodeClientProtocolByron epochSlots securityParam)
 
-withNodeProtocolClient ShelleyMode f =
-    f (mkNodeClientProtocolShelley)
+withNodeProtocolClient ShelleyMode f = f mkNodeClientProtocolShelley
 
 withNodeProtocolClient (CardanoMode epochSlots securityParam) f =
     f (mkNodeClientProtocolCardano epochSlots securityParam)
-
 
 data LocalNodeClientProtocols block =
      LocalNodeClientProtocols {

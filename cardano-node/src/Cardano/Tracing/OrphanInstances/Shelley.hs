@@ -126,7 +126,7 @@ instance ToObject (TPraosCannotForge c) where
 deriving newtype instance ToJSON KESPeriod
 
 instance ToObject HotKey.KESInfo where
-  toObject _verb (HotKey.KESInfo { kesStartPeriod, kesEndPeriod, kesEvolution }) =
+  toObject _verb HotKey.KESInfo { kesStartPeriod, kesEndPeriod, kesEvolution } =
     mkObject
       [ "kind" .= String "KESInfo"
       , "startPeriod" .= kesStartPeriod

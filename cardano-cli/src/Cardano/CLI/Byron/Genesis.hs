@@ -51,7 +51,7 @@ import qualified Cardano.Crypto as Crypto
 import           Cardano.CLI.Byron.Delegation
 import           Cardano.CLI.Byron.Key
 import           Cardano.CLI.Helpers (textShow)
-import           Cardano.CLI.Types (GenesisFile(..))
+import           Cardano.CLI.Types (GenesisFile (..))
 
 data ByronGenesisError
   = ByronDelegationCertSerializationError !ByronDelegationError
@@ -120,7 +120,7 @@ mkGenesisSpec gp = do
     ExceptT . pure $ canonicalDecodePretty protoParamsRaw
 
   -- We're relying on the generator to fake AVVM and delegation.
-  genesisDelegation <- withExceptT (MakeGenesisDelegationError) $
+  genesisDelegation <- withExceptT MakeGenesisDelegationError $
     Genesis.mkGenesisDelegation []
 
   withExceptT GenesisSpecError $

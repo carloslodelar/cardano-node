@@ -536,17 +536,17 @@ instance ToObject SlotNo where
 
 
 instance ToObject (TraceFetchClientState header) where
-  toObject _verb (AddedFetchRequest {}) =
+  toObject _verb AddedFetchRequest {} =
     mkObject [ "kind" .= String "AddedFetchRequest" ]
-  toObject _verb (AcknowledgedFetchRequest {}) =
+  toObject _verb AcknowledgedFetchRequest {} =
     mkObject [ "kind" .= String "AcknowledgedFetchRequest" ]
-  toObject _verb (CompletedBlockFetch {}) =
+  toObject _verb CompletedBlockFetch {} =
     mkObject [ "kind" .= String "CompletedBlockFetch" ]
-  toObject _verb (CompletedFetchBatch {}) =
+  toObject _verb CompletedFetchBatch {} =
     mkObject [ "kind" .= String "CompletedFetchBatch" ]
-  toObject _verb (StartedFetchBatch {}) =
+  toObject _verb StartedFetchBatch {} =
     mkObject [ "kind" .= String "StartedFetchBatch" ]
-  toObject _verb (RejectedFetchBatch {}) =
+  toObject _verb RejectedFetchBatch {} =
     mkObject [ "kind" .= String "RejectedFetchBatch" ]
 
 
