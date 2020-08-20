@@ -12,7 +12,6 @@
 - ignore: {name: "Use camelCase"}
 - ignore: {name: "Redundant $"}
 - ignore: {name: "Use record patterns"}
-- ignore: {name: "Use :"}
 
 # Specify additional command line arguments
 #

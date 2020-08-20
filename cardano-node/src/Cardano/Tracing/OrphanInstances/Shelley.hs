@@ -80,6 +80,7 @@ import           Shelley.Spec.Ledger.STS.Updn
 import           Shelley.Spec.Ledger.STS.Utxo
 import           Shelley.Spec.Ledger.TxData (MIRPot (..), TxId (..), TxIn (..), TxOut (..))
 
+{- HLINT ignore "Use :" -}
 
 --
 -- | instances of @ToObject@

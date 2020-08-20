@@ -34,7 +34,7 @@ import           Cardano.Chain.Byron.API (ApplyMempoolPayloadErr (..))
 import           Cardano.Chain.Delegation (delegateVK)
 import           Cardano.Crypto.Signing (VerificationKey)
 
-
+{- HLINT ignore "Use :" -}
 
 --
 -- | instances of @ToObject@
