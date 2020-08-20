@@ -43,10 +43,10 @@ renderHelpersError :: HelpersError -> Text
 renderHelpersError err =
   case err of
     OutputMustNotAlreadyExist fp -> "Output file/directory must not already exist: " <> Text.pack fp
-    ReadCBORFileFailure fp err' -> "CBOR read failure at: " <> Text.pack fp <> (Text.pack $ show err')
-    CBORPrettyPrintError err' -> "Error with CBOR decoding: " <> (Text.pack $ show err')
-    CBORDecodingError err' -> "Error with CBOR decoding: " <> (Text.pack $ show err')
-    IOError' fp ioE -> "Error at: " <> (Text.pack fp) <> " Error: " <> (Text.pack $ show ioE)
+    ReadCBORFileFailure fp err' -> "CBOR read failure at: " <> Text.pack fp <> Text.pack (show err')
+    CBORPrettyPrintError err' -> "Error with CBOR decoding: " <> Text.pack (show err')
+    CBORDecodingError err' -> "Error with CBOR decoding: " <> Text.pack (show err')
+    IOError' fp ioE -> "Error at: " <> (Text.pack fp) <> " Error: " <> Text.pack (show ioE)
 
 decodeCBOR
   :: LByteString
